@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<form method="GET" action="">
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+    </div>
+    <div class="col-sm">
+      <label for=""id="f1">From</label>
+      <input type="date" class="form-control" name="from_date" id="f1"value="{{ from_date }}" >
+    </div>
+    <div class="col-sm">
+      <label for="" id="t1">To</label>
+      <input type="date" class="form-control" name="to_date" id="t1" value="{{ to_date }}">
+    </div>
+          <div class="col-sm d-flex align-items-end">
+        <button type="submit" class="btn btn-light" style="margin-left: 200px; margin-bottom: 10px;">
+            <i class="fas fa-search"></i></button>
+      </div>
+
+  </div>
+</div>
+</form>
+
+<!-- {% for i in sales %}
+
+<h3>{{i.table_number}}</h3> <br>
+<h3>{{i.created_at}}</h3>
+<ul>
+    {% for item in i.orderitem_set.all %}
+    <li>
+        <p>{{item.order}}</p> <br>
+        <p>{{item.item}}</p> <br>
+        <p>{{item.quantity}}</p> <br>
+        
+    </li>
+    {% endfor %}
+</ul>
+
+{% endfor %} -->
+
+<table class = "table table-striped " id="basic-datatables1">
+    <thead>
+        <tr>
+            <th>Table_Number</th>
+            <th>Total_Amount</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+    {% for i in sales %}
+    <tr>
+        <td>{{i.table_number}}</td>
+        <td>{{i.total_amount}}</td>
+        <td>{{i.created_at}}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<script>
+var printCounter = 0;
+ 
+new DataTable('#example', {
+    caption: "A fictional company's staff table.",
+    layout: {
+        topStart: {
+            buttons: [
+                'copy',
+                {
+                    extend: 'excel',
+                    messageTop:
+                        'The information in this table is copyright to Sirius Cybernetics Corp.'
+                },
+                {
+                    extend: 'pdf',
+                    messageBottom: null
+                },
+                {
+                    extend: 'print',
+                    messageTop: function () {
+                        printCounter++;
+ 
+                        if (printCounter === 1) {
+                            return 'This is the first time you have printed this document.';
+                        }
+                        else {
+                            return (
+                                'You have printed this document ' + printCounter + ' times'
+                            );
+                        }
+                    },
+                    messageBottom: null
+                }
+            ]
+        }
+    }
+});
+
+</script>
+
+ 
+
+{% endblock content %}

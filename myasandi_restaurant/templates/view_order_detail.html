@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+<div id="printableArea">
+<h3 style="text-align: center;">Sandi's Choice Restaurant</h3>
+<p style = "text-align: center;">15A/Yangon-Insein Road, Kamayut T/S <br>
+    09-425800015, 09-263724191
+</p>
+
+<p>
+    <input type="number" name="tableId" id="tableId" value="{{tbl_order.id}}" hidden>
+    Table Number : <b>{{tbl_order}}</b>  <br>
+
+    Open Daily : 8:00 AM To 10:00 PM
+</p>
+<input type="number" name="invoiceId" id="invoiceId" value="{{orderList.id}}" hidden>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Menu</th>
+      <th scope="col">Price</th>
+      <th scope="col">Qty</th>
+      <th scope="col">Amount</th>
+    </tr>
+  </thead>
+  <tbody>
+ {% for i in orderitem %}
+    <tr>
+      <th scope="row">{{i.item}}</th>
+      <td>{{i.item.price}}</td>
+      <td>{{i.quantity}}</td>
+      <td>{{i.amount}}</td>
+    </tr>
+{% endfor %}
+    
+    
+    <tr>
+        <th scope="row">Net Amount</th>
+        <td></td>
+        <td></td>
+        <td>{{orderList.total_amount}}</td>
+    </tr>
+  </tbody>
+</table>
+
+<h5 style="text-align: center;">Goods sold aren't returnable!! <br>
+    Thank You!!!
+</h5>
+</div>
+<div class ="d-flex justify-content-center">
+    <button type="button" class="btn btn-success printBtn" onclick="changeTableStatus('printableArea')" >Print</button>
+</div>
+
+<script>
+    function printDiv(divId) {
+        var printContents = document.getElementById(divId).innerHTML;
+        var originalContents = document.body.innerHTML;
+
+        document.body.innerHTML = printContents;
+        window.print();
+        document.body.innerHTML = originalContents;
+        location.reload(); // optional: reload page to restore event handlers
+    }
+
+    function changeTableStatus(divId){
+        var printContents = document.getElementById(divId).innerHTML;
+        var tableId = $('#tableId').val();
+        var invoiceId = $('#invoiceId').val();
+         $.ajax({
+              url: '/reset_table/'+tableId, 
+              method: 'GET',
+              data: {tableId:tableId, invoiceId:invoiceId},
+              success: function(response){
+                var originalContents = document.body.innerHTML;
+
+                document.body.innerHTML = printContents;
+                window.print();
+                document.body.innerHTML = originalContents;
+                location.href = "{% url 'view_order_of_table' %}";
+
+                // location.href('/view_order_of_table/'); // optional: reload page to restore event handlers
+              }
+            })
+    }
+
+</script>
+
+{% endblock content %}

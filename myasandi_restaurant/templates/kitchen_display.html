@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<h1>Kitchen Display Screen (KDS)</h1>
+<table class="table" border = "1">
+    <tr>
+        <th>Table</th>
+        <th>Item</th>
+        <th>Qty</th>
+        <th>Cooked Status</th>
+    </tr>
+    {% for i in tbl_order %}
+    <tr>
+        <td>{{i.order}}</td>
+        <td>{{i.item}}</td>
+        <td>{{i.quantity}}</td>
+        <td>
+            {% if i.status == 1 %}
+            <a href="/mark_item_cooked/{{i.id}}" class="btn btn-sm btn-success">Accept</a>
+            {% endif %}
+
+            {% if i.status == 2 %}
+            <a href="/mark_item_cooked/{{i.id}}" class="btn btn-sm btn-warning">Cooking</a>
+            {% endif %}
+        </td>
+        
+    </tr>
+    {% endfor %}
+</table>
+
+<script src="">
+    setInterval(function() {
+         location.reload();
+          }, 5000); // Refresh every 5 seconds (5000 milliseconds)
+</script>
+{% endblock content %}

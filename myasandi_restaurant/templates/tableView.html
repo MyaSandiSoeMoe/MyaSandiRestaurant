@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row">
+              <div class="col-md-4">
+                <div class="card card-round">
+                  <div class="card-body">
+                    <div class="card-head-row card-tools-still-right">
+                      <div class="card-title">Create Table</div>
+                      <div class="card-tools">
+                        <div class="dropdown">
+                          <button
+                            class="btn btn-icon btn-clean me-0"
+                            type="button"
+                            id="dropdownMenuButton"
+                            data-bs-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                          >
+                            <i class="fas fa-ellipsis-h"></i>
+                          </button>
+                          <div
+                            class="dropdown-menu"
+                            aria-labelledby="dropdownMenuButton"
+                          >
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#"
+                              >Something else here</a
+                            >
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="card-list py-4">
+                        <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+                        <div class="mb-3">
+                            <label for="exampleFormControlInput1" class="form-label">Table Name</label>
+                            <input type="text" class="form-control" name="tblname" placeholder="TableName">
+                        </div>
+                        <button type="submit" class="btn btn-outline-primary">Create</button>
+         
+                        </form>
+                      
+                      
+                      
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-8">
+                <div class="card card-round">
+                  <div class="card-header">
+                    <div class="card-head-row card-tools-still-right">
+                      <div class="card-title">Table List</div>
+                      <div class="card-tools">
+                        <div class="dropdown">
+                          <button
+                            class="btn btn-icon btn-clean me-0"
+                            type="button"
+                            id="dropdownMenuButton"
+                            data-bs-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                          >
+                            <i class="fas fa-ellipsis-h"></i>
+                          </button>
+                          <div
+                            class="dropdown-menu"
+                            aria-labelledby="dropdownMenuButton"
+                          >
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#"
+                              >Something else here</a
+                            >
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="card-body p-0">
+                    <div class="table-responsive">
+                      <!-- Projects table -->
+                      <table class="table align-items-center mb-0" >
+                        <thead class="thead-light">
+                            <tr>
+                                <th>TableName</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        
+                        <tbody id ="tblList">
+                            {% for i in tblList %}
+                            <tr class="tblListTr">
+                                <td><i class="fas fa-award "></i>&nbsp; {{i.tableName}} </td>
+                                <td>{{i.vacant}}</td>
+                                <td>
+                                    <a href="" data-bs-toggle="modal" data-bs-target="#exampleModal-{{i.id}}" class="text-primary p-2"><i class="fas fa-pencil-alt"></i></a>
+                                    <!-- Modal -->
+                                <div class="modal fade" id="exampleModal-{{i.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content updateModal" >
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel">{{i.tableName}}</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                        <div class="modal-body">
+                        
+                        <div class="mb-3">
+                            <input type="number" name="tblid" value="{{i.id}}" hidden>
+                            <label for="exampleFormControlInput1" class="form-label">Table Name</label>
+
+                            <input type="text" class="form-control" name="tblname" placeholder="TableName">
+                        </div>
+         
+                        </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary updateBtn">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+                                    <a href="{% url 'TableDelete' i.id %}" class="text-danger"><i class="fas fa-trash"></i></a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+{% endblock content %}

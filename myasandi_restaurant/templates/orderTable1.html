@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="col-md-12">
+							<div class="card">
+								<div class="card-header">
+									<h4 class="card-title">{{tbl}}</h4>
+								</div>
+								<div class="card-body">
+									<div class="row">
+										<div class="col-5 col-md-4">
+											<div class="row">
+											<div class="nav flex-column nav-pills nav-secondary nav-pills-no-bd" id="v-pills-tab-without-border" role="tablist" aria-orientation="vertical">
+												{% for i in category %}
+												<a class="nav-link" id="v-pills-home-tab-nobd" data-bs-toggle="pill" href="#v-pills-home-nobd" role="tab" aria-controls="v-pills-home-nobd" aria-selected="true">{{i.categoryName}}</a>
+												{% endfor %}
+											</div>
+										</div>
+										
+										<div class="col-7 col-md-8">
+											<div class="tab-content" id="v-pills-without-border-tabContent">
+												{% for i in category %}
+												<div class="tab-pane fade show active" id="v-pills-home-nobd" role="tabpanel" aria-labelledby="v-pills-home-tab-nobd">
+													{% for meu in i.menu_set.all %}
+													<div class="card" style="width: 18rem;">
+  														<img src="{{meu.itemPhoto.url}}" class="card-img-top" alt="...">
+  															<div class="card-body">
+    															<h5 class="card-title">{{meu.menuName}}</h5>
+    															<a href="#" class="btn btn-primary">{{meu.price}}</a>
+  															</div>
+													</div>
+													{% endfor %}
+												</div>
+												{% endfor %}
+												
+
+											</div>
+										</div>
+									</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+{% endblock content %}

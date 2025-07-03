@@ -1,0 +1,330 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<!-- Button trigger modal -->
+
+<div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel1">Add Menu</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+     <form action="{% url 'add_menu' %}" method="post" enctype="multipart/form-data">{% csrf_token %}
+
+      <div class="modal-body">
+          {{mfm}} 
+          
+        
+        <!-- <label for="add_cat_id">Category Name</label><br>
+        <input type="text" name="" id="add_cat_id" class="form-control">
+
+        <label for="add_menu_photo_id">Item Photo</label>
+        <input type="file" name="" id="add_menu_photo_id" class="form-control"> -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary ">Save changes</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+     <form action="{% url 'add_category' %}" method="post" enctype="multipart/form-data">{% csrf_token %}
+
+      <div class="modal-body">
+          {{fm}} 
+          
+        
+        <!-- <label for="add_cat_id">Category Name</label><br>
+        <input type="text" name="" id="add_cat_id" class="form-control">
+
+        <label for="add_menu_photo_id">Item Photo</label>
+        <input type="file" name="" id="add_menu_photo_id" class="form-control"> -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary SaveBtn">Save changes</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+
+
+<div class="row">
+              <div class="col-md-4">
+                <div class="card card-round">
+                  <div class="card-body">
+                    <div class="card-head-row card-tools-still-right">
+                      <div class="card-title">Item List</div>
+                      <div class="card-tools">
+                        <div class="dropdown">
+                          <button
+                            class="btn btn-icon btn-clean me-0"
+                            type="button"
+                            id="dropdownMenuButton"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                            data-bs-toggle="modal" data-bs-target="#exampleModal"
+                          >
+                                
+                            <i class="fas fa-plus-circle"></i>
+                          <div
+                            class="dropdown-menu"
+                            aria-labelledby="dropdownMenuButton"
+                          >
+                        {% for i in item %}  
+                          <div class="info-user ms-3">
+                          <div class="username">{{i.categoryName}}</div>
+                        </div>
+                        {% endfor %}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-list py-4">                      
+{% for i in item %}
+                        <div class="item-list" data-menuid="{{i.id}}">
+                        <div class="avatar">
+                          <img
+                            src="{{i.menuPhoto.url}}"
+                            alt="..."
+                            class="avatar-img rounded-circle"
+                          />
+                        </div>
+                        <div class="info-user ms-3">
+                          <div class="username">{{i.categoryName}}</div>
+                          <div class="status"><i class="fas fa-concierge-bell"></i>Sandi's Kitchen</div>
+                        </div>
+                        <button class="btn btn-icon btn-link op-8 me-1 editpencil" name="catName">
+                          <i class="fas fa-pencil-alt"></i>                          
+
+                        </button>
+                        <button class="btn btn-icon btn-link btn-danger op-8" onclick="deleteItem({{i.id}})">
+                          <i class="fas fa-trash"></i>
+                        </button>
+                      </div>
+{% endfor %}  
+                    
+                      
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+
+
+
+
+
+
+
+              <div class="col-md-8">
+                <div class="card card-round">
+                  <div class="card-header">
+                    <div class="card-head-row card-tools-still-right">
+                      <div class="card-title">Menu Available</div>
+                      <div class="card-tools">
+                        <div class="dropdown">
+                          <button
+                            class="btn btn-icon btn-clean me-0"
+                            type="button"
+                            id="dropdownMenuButton"
+                            
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                            data-bs-toggle="modal" data-bs-target="#exampleModal1"
+                          >
+                            <i class="fas fa-plus-circle"></i>
+                          </button>
+                          <div
+                            class="dropdown-menu"
+                            aria-labelledby="dropdownMenuButton"
+                          >
+                            
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-body p-0">
+                    <div class="table-responsive">
+                      <!-- Projects table -->
+                      <table class="table align-items-center mb-0 " id="basic-datatables2">
+                        <thead class="thead-light">
+                            <tr data-menuAvailableid="{{i.id}}">
+                                <th>Menu</th>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>Category Name</th>
+                                <th>Kitchen Name</th>
+                                <th>Order</th>
+                                <th>Menu Update</th>
+                                <th>Menu Delete</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id ="tblList">
+                            {% for i in menu %}
+                            <tr class="tblListTr">
+                                <td><div class="avatar">
+                                  <img src="{{i.itemPhoto.url}}" alt="..." class="avatar-img rounded-circle"/>
+                                    
+                                  <!-- <button class="btn btn-icon btn-link op-8 me-1 editpencil" name="catName">
+                                  <i class="fas fa-pencil-alt"></i>                          
+
+                                  </button>
+
+                                    <button class="btn btn-icon btn-link btn-danger op-8" onclick="deleteItem({{i.id}})">
+                                    <i class="fas fa-trash"></i>
+                                    </button> -->
+                                    </div>
+
+                                </td>
+                                <td>{{i.menuName}}</td>
+                                <td>{{i.price}}</td>
+                                <td>{{i.categoryName}}</td>
+                                <td>{{i.kitchenName}}</td>                            
+                                <td>
+                                  {% if i.out_of_order == True %}
+                                  <i class="fas fa-times-circle text-danger"></i>
+
+                                  {% else %}
+                                  <i class="fas fa-check-circle text-success"></i>
+
+                                  {% endif %}
+                                </td>
+                                <td >
+                                  <button data-bs-toggle="modal" data-bs-target="#exampleModal-{{i.id}}" class="btn btn-icon btn-link op-8 me-1 editpencil1" name="catName">
+                                  <i class="fas fa-pencil-alt"></i> 
+                                                           
+
+                                  </button>
+                                  <!-- Button trigger modal -->
+
+<!-- Modal -->
+
+                                </td>
+
+                                <td>
+                                    <button class="btn btn-icon btn-link btn-danger op-8" onclick="deleteMenu({{i.id}})">
+                                    <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                                <!-- Button trigger modal -->
+                                </tr>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal-{{i.id}}" tabindex="-1" aria-labelledby="exampleModalLabel-{{i.id}}" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel-{{i.id}}">Update Menu-{{i.id}}</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="{% url 'updateMenu' i.id %}" method = "post" enctype="multipart/form-data">{% csrf_token %}
+        <div class="modal-body">
+ <div class="form-group">
+  <label for="photo-{{ i.id }}">Menu Photo</label>
+  <div class="d-flex align-items-center gap-3 mt-2">
+    <img src="{{ i.itemPhoto.url }}" 
+         alt="Menu Photo" 
+         class="rounded-circle shadow" 
+         style="width: 100px; height: 80px; object-fit: cover;">
+         
+    <input type="file" class="form-control" id="photo-{{ i.id }}" name="photo">
+  </div>
+</div>
+          
+  <div class="form-group">
+    <label for="name-{{i.id}}">Menu Name:</label>
+    <input type="text" class="form-control" name="menuName" id="name-{{i.id}}" value="{{i.menuName}}" aria-describedby="emailHelp" placeholder="Enter menu name">
+  </div>
+
+  <div class="form-group">
+    <label for="price-{{ i.id }}">Price</label>
+    <input type="number" class="form-control" name="price" value="{{i.price}}" id="price-{{ i.id }}" placeholder="0">
+  </div>
+
+  <div class="form-group">
+    <label for="category-{{ i.id }}">Category Name</label>
+    <select class="form-select" name="categoryName" id="category-{{ i.id }}" value="{{i.categoryName}}" aria-label="Default select example">
+      {% for cat in item %}
+    <option value="{{cat.id}}">{{cat.categoryName}}</option>
+
+    {% endfor %}
+</select>
+  </div>
+
+  <div class="form-group">
+    <label for="kitchen-{{ i.id }}">Category Name</label>
+    <select class="form-select" name="kitchenName" id="kitchen-{{ i.id }}" value="{{i.kitchenName}}" aria-label="Default select example">
+      {% for k in kit %}
+    <option value="{{k.id}}">{{k.kitchenName}}</option>
+
+    {% endfor %}
+</select>
+  </div>
+
+
+
+    
+  
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+      </div>
+      </form>
+      
+    </div>
+  </div>
+</div>
+
+                           
+                        {% endfor %}
+                        </tbody>
+                        <tfoot>
+                          <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+
+                          </tr>
+                        </tfoot>
+                      </table>
+
+
+                      
+
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+              
+
+            </div>   
+            
+            
+
+{% endblock content %}
+ 
